@@ -1,6 +1,6 @@
 {
     "name": "rafaelglikis/sinama",
-    "description": "Web scraping library for php",
+    "description": "Web scraping library",
     "require": {
         "php": "^5.3.3 || ^7.0",
         "symfony/browser-kit": "~4.0",

@@ -1,1 +1,3 @@
-just a test
+# Sinama
+
+Web scraping library
