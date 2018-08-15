@@ -2,11 +2,11 @@
 Sinama is a simple web scraping library.
 
 ## Requirements
-* PHP 5.5+
+* PHP 7.0
 
 ## Installation
 
-    composer require rafaelglikis/sinama
+    composer require rafaelglikis/sinama:dev-master
 
 ## Usage
 Create a Sinama Client (which extends Goutte\Client):
