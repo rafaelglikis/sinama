@@ -3,6 +3,8 @@
     "type": "library",
     "description": "Web scraping library",
     "keywords": ["scraping", "crawling", "scraper", "crawler"],
+    "homepage": "https://github.com/rafaelglikis/sinama",
+    "license": "MIT",
     "require": {
         "php": ">=5.5.0",
         "fabpot/goutte": "^3.2"
