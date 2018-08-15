@@ -6,7 +6,7 @@ Sinama is a simple web scraping library.
 
 ## Installation
 
-    composer require rafaelglikis/sinama:dev-master
+    composer require rafaelglikis/sinama
 
 ## Usage
 Create a Sinama Client (which extends Goutte\Client):
@@ -19,7 +19,7 @@ Make requests with the request() method:
     // Go to the symfony.com website
     $crawler = $client->request('GET', 'https://www.symfony.com/blog/');
     
-The method returns a [Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html) object.
+The method returns a Crawler object compatible with [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html) .
 
 To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama. For example, to add a 60 second request timeout:
 
