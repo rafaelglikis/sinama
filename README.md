@@ -17,9 +17,9 @@ Create a Sinama Client (which extends Goutte\Client):
 Make requests with the request() method:
 
     // Go to the symfony.com website
-    $crawler = $client->request('GET', 'https://www.symfony.com/blog/');
+    $crawler = $client->request('GET', 'https://motherfuckingwebsite.com/');
     
-The method returns a Crawler object compatible with [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html) .
+The method returns a Crawler object (which extends [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html)).
 
 To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama. For example, to add a 60 second request timeout:
 
