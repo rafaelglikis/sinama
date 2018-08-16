@@ -135,6 +135,5 @@ $spider->run();
 
 ## TODO
 * Crawler::findTags()
-* implement Spider
 
     
