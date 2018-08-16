@@ -88,8 +88,52 @@ $crawler->filter('h3 > a')->each(function ($node) {
     print trim($node->text())."\n";
 });
 ```
+
+Now that we have learned enough let's scrape a site with Sinama Spider:
+
+```php
+use Sinama\Crawler;
+use Sinama\Spider as BaseSpider;
+
+class Spider extends BaseSpider
+{
+    public function parse(Crawler $crawler)
+    {
+        $crawler->filter('div.read-more > a')->each(function (Crawler $node) {
+            $this->scrape($node->attr('href'));
+        });
+
+        $crawler->filter('div.blog-pagination > a')->each(function ($node) {
+            $this->follow($node->attr('href'));
+        });
+    }
+
+    public function scrape($url)
+    {
+        echo "*************************************************** ".$url."\n";
+        $crawler = $this->client->request('GET', $url);
+        echo "Title: " . $crawler->findTitle() . "\n";
+        echo "Main Image: " . $crawler->findMainImage()."\n";
+        echo "Main Content: \n" . $crawler->findMainContent()."\n";
+        echo "Emails: \n";
+        print_r($crawler->findEmails());
+        echo "Links: \n";
+        print_r($crawler->findLinks());
+    }
+
+    public function getStartUrls(): array
+    {
+        return [
+            'https://blog.scrapinghub.com'
+        ];
+    }
+}
+
+$spider = new Spider();
+$spider->run();
+```
+
 ## TODO
 * Crawler::findTags()
-* implement Spider
 
     
