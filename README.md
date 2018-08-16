@@ -1,4 +1,6 @@
 # Sinama
+[![Build Status](https://travis-ci.org/rafaelglikis/sinama.svg?branch=master)](https://travis-ci.org/rafaelglikis/sinama)
+
 Sinama is a simple web scraping library.
 
 ## Requirements
