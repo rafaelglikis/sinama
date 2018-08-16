@@ -39,7 +39,7 @@ Click on links:
     $crawler = $client->click($link);
     echo $crawler->getUri()."\n";
     
-Extract data  the symfony way:
+Extract data the symfony way:
 
     $crawler->filter('h3 > a')->each(function ($node) {
         print trim($node->text())."\n";
@@ -67,8 +67,6 @@ Or use Sinama special methods:
     echo '</body>';
     echo '</html>';
     
-    
-
 Submit forms:
 
     $crawler = $client->request('GET', 'https://www.google.com/');
@@ -79,6 +77,5 @@ Submit forms:
     });
     
 ## TODO
-* Crawler::findImages()
 * Crawler::findTags()
     
