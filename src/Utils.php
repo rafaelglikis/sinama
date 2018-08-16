@@ -26,24 +26,17 @@ class Utils
 
     public static function isValidUrl(string $str): string
     {
-        return filter_var($str, FILTER_VALIDATE_URL);
+        return (bool)filter_var($str, FILTER_VALIDATE_URL);
     }
 
     public static function isValidEmail(string $str): string
     {
-        return filter_var($str, FILTER_VALIDATE_EMAIL);
+        return (bool)filter_var($str, FILTER_VALIDATE_EMAIL);
     }
 
     public static function isValidIpAddress(string $str): string
     {
-        return filter_var($str, FILTER_VALIDATE_IP);
-    }
-
-    public static function extractEmails(string $str)
-    {
-        preg_match_all(Utils::EMAIL_REGEX, $str, $matches);
-
-        return $matches[0] ?? [];
+        return (bool)filter_var($str, FILTER_VALIDATE_IP);
     }
 
     /**
@@ -59,6 +52,13 @@ class Utils
         $result = json_decode($str);
 
         return (json_last_error() === JSON_ERROR_NONE);
+    }
+
+    public static function extractEmails(string $str)
+    {
+        preg_match_all(Utils::EMAIL_REGEX, $str, $matches);
+
+        return $matches[0] ?? [];
     }
 
     public static function extractImages(string $html)
@@ -99,9 +99,9 @@ class Utils
      * Finds the main node of given html.
      * (Uses Heuristic not 100% accurate)
      * @param $html
-     * @return mixed|null
+     * @return DOMElement
      */
-    public static function findTopNode(string $html) : DOMElement
+    public static function extractTopNode(string $html) : DOMElement
     {
         $dom = new DOMDocument();
         @$dom->loadHTML($html);
@@ -109,22 +109,25 @@ class Utils
         // Score is determined by heuristics.
         $nodes = array();
         $paragraphs = $dom->getElementsByTagName("p");
-        foreach ($paragraphs as $paragraph)
-        {
+        foreach ($paragraphs as $paragraph) {
             $contentScore = Utils::calculateParagraphScore($paragraph);
             $paragraph->parentNode->setAttribute("contentScore", $contentScore);
             $nodes[] = $paragraph->parentNode;
         }
-        // Find the node with the higher score
+        /**
+         * @var $topNode DOMElement
+         */
         $topNode = $nodes[0];
-        foreach ($nodes as $node)
-        {
+        // Find the node with the higher score
+        foreach ($nodes as $node) {
             $contentScore = intval($node->getAttribute("contentScore"));
             $higherContentScore = intval($topNode->getAttribute("contentScore"));
             if ($contentScore && $contentScore > $higherContentScore) {
                 $topNode = $node;
             }
         }
+        $topNode->removeAttribute("contentScore");
+
         return $topNode;
     }
 

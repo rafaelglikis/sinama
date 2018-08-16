@@ -67,12 +67,12 @@ class Crawler extends BaseCrawler
     public function findMainContent(): string
     {
         $html = $this->html();
-        $mainContentNode = Utils::findTopNode($html);
+        $mainContentNode = Utils::extractTopNode($html);
         // DOMDocument
-        $Target = new DOMDocument;
-        $Target->appendChild($Target->importNode($mainContentNode, true));
+        $dom = new DOMDocument;
+        $dom->appendChild($dom->importNode($mainContentNode, true));
         // $mainContent = $Target->saveHTML();
-        $mainContent = mb_convert_encoding($Target->saveHTML(),  "utf-8", "HTML-ENTITIES");
+        $mainContent = mb_convert_encoding($dom->saveHTML(),  "utf-8", "HTML-ENTITIES");
         $mainContent = Utils::fixHtml($mainContent);
 
         return $mainContent;

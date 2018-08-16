@@ -19,7 +19,7 @@ $client = new Client();
 Make requests with the request() method:
 
 ```php
-// Go to the motherfuckingwebsite.com/ website
+// Go to the motherfuckingwebsite.com website
 $crawler = $client->request('GET', 'https://motherfuckingwebsite.com/');
 ```
     

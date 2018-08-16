@@ -75,3 +75,5 @@ vendor
 composer.lock
 src/example.php
 example.php
+example.html
+test.sh
