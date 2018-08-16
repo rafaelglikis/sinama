@@ -5,7 +5,7 @@ Sinama is a simple web scraping library.
 * PHP 7.0
 
 ## Installation
-```bash
+```shell
 composer require rafaelglikis/sinama
 ```
 
