@@ -61,6 +61,8 @@ Or use Sinama special methods:
     print_r($crawler->findLinks());
     echo 'Emails: ';
     print_r($crawler->findEmails());
+    echo 'Images: ';
+    print_r($crawler->findImages());
     echo '</pre>';
     echo '</body>';
     echo '</html>';

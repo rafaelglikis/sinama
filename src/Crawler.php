@@ -78,6 +78,11 @@ class Crawler extends BaseCrawler
         return $mainContent;
     }
 
+    public function findImages()
+    {
+        return Utils::extractImages($this->html());
+    }
+
     public function findEmails()
     {
         return Utils::extractEmails($this->html());

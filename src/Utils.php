@@ -61,6 +61,22 @@ class Utils
         return (json_last_error() === JSON_ERROR_NONE);
     }
 
+    public static function extractImages(string $html)
+    {
+        $dom = new DOMDocument();
+        @$dom->loadHTML($html);
+
+        $images = [];
+
+        $imgTags = $dom->getElementsByTagName('img');
+        foreach ($imgTags as $img) {
+            $img = $img->getAttribute('src');
+            $images[] =  $img;
+        }
+
+        return $images;
+    }
+
     /**
      * Adds baseUri to url is not url.
      *
@@ -169,8 +185,7 @@ class Utils
      */
     public static function cut(string $str, string $start = null, string $end = null)
     {
-        if ($end == null)
-        {
+        if ($end == null) {
             $intStart = @strpos($str,$start) + strlen($start);
             $cut = @substr($str,$intStart);
             return $cut;
@@ -190,4 +205,6 @@ class Utils
 
         return join(" \n", array_diff($arr2, $arr1));
     }
+
+
 }
