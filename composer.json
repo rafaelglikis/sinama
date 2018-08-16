@@ -6,7 +6,7 @@
     "homepage": "https://github.com/rafaelglikis/sinama",
     "license": "MIT",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "ext-json": "*",
         "ext-dom": "*",
         "fabpot/goutte": "^3.2"
