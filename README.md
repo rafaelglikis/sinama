@@ -58,4 +58,5 @@ Submit forms:
 * Crawler::findMainContent()
 * Crawler::findTags()
 * split Crawler::fixHtml()
+* Crawler::extractImages()
     
