@@ -200,15 +200,6 @@ class Utils
         return $cut;
     }
 
-    public static function diff(string $str1, string $str2)
-    {
-        // Converting strings to arrays
-        $arr1 = explode(" ", $str1);
-        $arr2 = explode(" ", $str2);
-
-        return join(" \n", array_diff($arr2, $arr1));
-    }
-
     public static function cutAll(string $str, string $start, string $end): array
     {
         $pieces = [];
@@ -227,5 +218,22 @@ class Utils
         return $pieces;
     }
 
+    public static function diff(string $str1, string $str2, $delimiter = ' ')
+    {
+        // Converting strings to arrays
+        $arr1 = explode($delimiter, $str1);
+        $arr2 = explode($delimiter, $str2);
+        $arrDiff = array_map(null, array_diff($arr1, $arr2), array_diff($arr2, $arr1));
 
+        $strDiff = '';
+        foreach ($arrDiff as $res) {
+            if (isset($res[0])) {
+                $strDiff.="+ $res[0]\n";
+            }
+            if (isset($res[1])) {
+                $strDiff.="- $res[1]\n";
+            }
+        }
+        return $strDiff;
+    }
 }

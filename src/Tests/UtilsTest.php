@@ -4,6 +4,7 @@ namespace Sinama\Tests;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\CodeCoverage\Util;
 use Sinama\Utils;
 
 class UtilsTest extends TestCase
@@ -125,6 +126,22 @@ class UtilsTest extends TestCase
         foreach ($results as $res) {
             $this->assertEquals($innerP, $res);
         }
+    }
+
+    public function testDiff()
+    {
+        $str1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae pretium augue. Quisque viverra dui non enim commodo auctor. Sed.";
+        $str2 = "Lorens ipsum dolor sil amet, consectetur adipiscing elit. Phasellus vitae pretium augue. Quisque viverra dui non enim commodo auctor. Sed. savarakatranemia";
+        $this->assertEquals('', Utils::diff($str1, $str1));
+        $this->assertEquals("+ Lorem\n- Lorens\n+ sit\n- sil\n- savarakatranemia\n", Utils::diff($str1, $str2));
+        $this->assertEquals("+ Lorens\n- Lorem\n+ sil\n- sit\n+ savarakatranemia\n", Utils::diff($str2, $str1));
+
+        $str1 = "Lorem ipsum dolor sit amet.\n Lorem ipsum dolor sit amet.\n Lorem ipsum dolor sit amet\n";
+        $str2 = "Lorem ipsum dolor sit amel.\n Lorem ipsum dolor sit amet.\n Lorem ipsum dolor sit amet\n";
+
+        $this->assertEquals('', Utils::diff($str1, $str1, "\n"));
+        echo "\n".Utils::diff($str1, $str2, "\n");
+        $this->assertEquals("+ Lorem ipsum dolor sit amet.\n- Lorem ipsum dolor sit amel.\n", Utils::diff($str1, $str2, "\n"));
     }
 
 }
