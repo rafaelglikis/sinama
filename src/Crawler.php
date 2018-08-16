@@ -70,5 +70,11 @@ class Crawler extends BaseCrawler
         return $links;
     }
 
+    public function extractEmails()
+    {
+        $regexp = '/([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+/i';
+        preg_match_all($regexp, $this->html(), $matches);
 
+        return $matches[0] ?? [];
+    }
 }
