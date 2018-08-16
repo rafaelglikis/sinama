@@ -186,7 +186,7 @@ class Utils
      *
      * @return string
      */
-    public static function cut(string $str, string $start = null, string $end = null)
+    public static function cut(string $str, string $start = null, string $end = null): string 
     {
         if ($end == null) {
             $intStart = @strpos($str,$start) + strlen($start);
@@ -207,6 +207,24 @@ class Utils
         $arr2 = explode(" ", $str2);
 
         return join(" \n", array_diff($arr2, $arr1));
+    }
+
+    public static function cutAll(string $str, string $start, string $end): array
+    {
+        $pieces = [];
+        $remainingStr = $str;
+
+        while (true) {
+            $remainingStr = Utils::cut($remainingStr, $start);
+            $piece = Utils::cut($remainingStr, null, $end);
+            if ($piece=='') {
+                break;
+            }
+            $remainingStr = Utils::cut($remainingStr, $end);
+            $pieces[] = $piece;
+        }
+
+        return $pieces;
     }
 
 

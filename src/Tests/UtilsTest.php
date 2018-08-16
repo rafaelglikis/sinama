@@ -116,5 +116,15 @@ class UtilsTest extends TestCase
         $this->assertEquals($expectedStr, Utils::cut(UtilsTest::$html, '<p>', '</p>'));
     }
 
+    public function testCutAll()
+    {
+        $str = Utils::cut(UtilsTest::$html, ' <article', ' </article>');
+        $results = Utils::cutAll($str, '<p>', '</p>');
+        $innerP = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae pretium augue. Quisque viverra dui non enim commodo auctor. Sed.";
+
+        foreach ($results as $res) {
+            $this->assertEquals($innerP, $res);
+        }
+    }
 
 }
