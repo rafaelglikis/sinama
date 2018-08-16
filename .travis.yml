@@ -1,0 +1,15 @@
+
+language: php
+
+sudo: false
+
+php:
+- 7.2
+- 7.1
+- 7.0
+
+install:
+- composer update
+
+script:
+- vendor/phpunit/phpunit/phpunit src/Tests/ --colors=auto
