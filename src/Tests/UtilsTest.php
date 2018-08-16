@@ -140,7 +140,6 @@ class UtilsTest extends TestCase
         $str2 = "Lorem ipsum dolor sit amel.\n Lorem ipsum dolor sit amet.\n Lorem ipsum dolor sit amet\n";
 
         $this->assertEquals('', Utils::diff($str1, $str1, "\n"));
-        echo "\n".Utils::diff($str1, $str2, "\n");
         $this->assertEquals("+ Lorem ipsum dolor sit amet.\n- Lorem ipsum dolor sit amel.\n", Utils::diff($str1, $str2, "\n"));
     }
 

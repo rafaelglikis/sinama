@@ -205,14 +205,14 @@ class Utils
         $pieces = [];
         $remainingStr = $str;
 
-        while (true) {
+        $remainingStr = Utils::cut($remainingStr, $start);
+        $piece = Utils::cut($remainingStr, null, $end);
+
+        while ($piece!='') {
+            $pieces[] = $piece;
             $remainingStr = Utils::cut($remainingStr, $start);
             $piece = Utils::cut($remainingStr, null, $end);
-            if ($piece=='') {
-                break;
-            }
             $remainingStr = Utils::cut($remainingStr, $end);
-            $pieces[] = $piece;
         }
 
         return $pieces;
