@@ -17,11 +17,11 @@ Create a Sinama Client (which extends Goutte\Client):
 Make requests with the request() method:
 
     // Go to the symfony.com website
-    $crawler = $client->request('GET', 'https://www.symfony.com/blog/');
+    $crawler = $client->request('GET', 'https://motherfuckingwebsite.com/');
     
-The method returns a Crawler object compatible with [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html) .
+The method returns a Crawler object (which extends [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html)).
 
-To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama. For example, to add a 60 second request timeout:
+To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama Client. For example, to add a 60 second request timeout:
 
     use  Sinama\Client;
     use GuzzleHttp\Client as GuzzleClient;
@@ -39,12 +39,34 @@ Click on links:
     $crawler = $client->click($link);
     echo $crawler->getUri()."\n";
     
-Extract data:
+Extract data the symfony way:
 
     $crawler->filter('h3 > a')->each(function ($node) {
         print trim($node->text())."\n";
     });
-
+    
+Or use Sinama special methods:
+    
+    $crawler = $client->request('GET', 'https://github.com/trending');
+    echo '<html>';
+    echo '<head>';
+    echo '<title>'.$crawler->findTitle().'</title>';
+    echo '<head>';
+    echo '<body>';
+    echo '<h1>'.$crawler->findTitle().'</h1>';
+    echo '<p>Main Image: '.$crawler->findMainImage().'</p>';
+    echo $crawler->findMainContent();
+    echo '<pre>';
+    echo 'Links: ';
+    print_r($crawler->findLinks());
+    echo 'Emails: ';
+    print_r($crawler->findEmails());
+    echo 'Images: ';
+    print_r($crawler->findImages());
+    echo '</pre>';
+    echo '</body>';
+    echo '</html>';
+    
 Submit forms:
 
     $crawler = $client->request('GET', 'https://www.google.com/');
@@ -53,3 +75,7 @@ Submit forms:
     $crawler->filter('h3 > a')->each(function ($node) {
         print trim($node->text())."\n";
     });
+    
+## TODO
+* Crawler::findTags()
+    

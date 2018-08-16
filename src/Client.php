@@ -7,6 +7,7 @@ use Goutte\Client as BaseClient;
 
 class Client extends BaseClient
 {
+
     /**
      * @var \Sinama\Crawler
      */
