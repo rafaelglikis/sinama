@@ -13,7 +13,7 @@ class UtilsTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        UtilsTest::$html = file_get_contents("fixtures/test.html");
+        UtilsTest::$html = file_get_contents("fixtures/test.txt");
     }
 
     public function testIsValidUrl()

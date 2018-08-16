@@ -15,7 +15,7 @@ class CrawlerTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        CrawlerTest::$crawler = new Crawler(file_get_contents("fixtures/test.html"), "http://www.mfw.com");
+        CrawlerTest::$crawler = new Crawler(file_get_contents("fixtures/test.txt"), "http://www.mfw.com");
     }
 
     public function testFindTitle()
