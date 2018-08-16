@@ -79,13 +79,14 @@ echo '</html>';
     
 Submit forms:
 
-    $crawler = $client->request('GET', 'https://www.google.com/');
-    $form = $crawler->selectButton('Google Search')->form();
-    $crawler = $client->submit($form, ['q' => 'rafaelglikis/sinama']);
-    $crawler->filter('h3 > a')->each(function ($node) {
-        print trim($node->text())."\n";
-    });
-    
+```php
+$crawler = $client->request('GET', 'https://www.google.com/');
+$form = $crawler->selectButton('Google Search')->form();
+$crawler = $client->submit($form, ['q' => 'rafaelglikis/sinama']);
+$crawler->filter('h3 > a')->each(function ($node) {
+    print trim($node->text())."\n";
+});
+```
 ## TODO
 * Crawler::findTags()
 * implement Spider
