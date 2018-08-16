@@ -21,7 +21,7 @@ Make requests with the request() method:
     
 The method returns a Crawler object (which extends [Symfony/Component/DomCrawler/Crawler](https://api.symfony.com/4.1/Symfony/Component/DomCrawler/Crawler.html)).
 
-To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama. For example, to add a 60 second request timeout:
+To use your own Guzzle settings, you may create and pass a new Guzzle 6 instance to Sinama Client. For example, to add a 60 second request timeout:
 
     use  Sinama\Client;
     use GuzzleHttp\Client as GuzzleClient;
@@ -39,11 +39,33 @@ Click on links:
     $crawler = $client->click($link);
     echo $crawler->getUri()."\n";
     
-Extract data:
+Extract data  the symfony way:
 
     $crawler->filter('h3 > a')->each(function ($node) {
         print trim($node->text())."\n";
     });
+    
+Or use Sinama special methods:
+    
+    $crawler = $client->request('GET', 'https://github.com/trending');
+    echo '<html>';
+    echo '<head>';
+    echo '<title>'.$crawler->findTitle().'</title>';
+    echo '<head>';
+    echo '<body>';
+    echo '<h1>'.$crawler->findTitle().'</h1>';
+    echo '<p>Main Image: '.$crawler->findMainImage().'</p>';
+    echo $crawler->findMainContent();
+    echo '<pre>';
+    echo 'Links: ';
+    print_r($crawler->findLinks());
+    echo 'Emails: ';
+    print_r($crawler->findEmails());
+    echo '</pre>';
+    echo '</body>';
+    echo '</html>';
+    
+    
 
 Submit forms:
 
@@ -55,8 +77,6 @@ Submit forms:
     });
     
 ## TODO
-* Crawler::findMainContent()
+* Crawler::findImages()
 * Crawler::findTags()
-* split Crawler::fixHtml()
-* Crawler::extractImages()
     

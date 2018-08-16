@@ -8,6 +8,7 @@
     "require": {
         "php": ">=7.0",
         "ext-json": "*",
+        "ext-dom": "*",
         "fabpot/goutte": "^3.2"
     },
     "require-dev": {

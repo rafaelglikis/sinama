@@ -3,6 +3,7 @@
 namespace Sinama;
 
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
+use DOMDocument;
 
 class Crawler extends BaseCrawler
 {
@@ -16,7 +17,7 @@ class Crawler extends BaseCrawler
         return trim($this->filter('title')->text());
     }
 
-    public function filterLinks()
+    public function findLinks()
     {
         $links = [];
         $atags = $this->getNode(0)->getElementsByTagName('a');
@@ -37,7 +38,7 @@ class Crawler extends BaseCrawler
             $meta = $metas->item($i);
             if($meta->getAttribute('property') == 'og:image') {
                 $image = $meta->getAttribute('content');
-                $image = Utils::makeUrlIfNot($image, $this->getUri());
+                $image = Utils::makeUrlIfNot($image, $this->getBaseUrl());
                 if(filter_var($image, FILTER_VALIDATE_URL)) {
                     return $image;
                 }
@@ -48,7 +49,7 @@ class Crawler extends BaseCrawler
         $images = $this->getNode(0)->getElementsByTagName('img');
         foreach ($images as $image) {
             $image = $image->getAttribute('src');
-            $image = Utils::makeUrlIfNot($image, $this->getUri());
+            $image = Utils::makeUrlIfNot($image, $this->getBaseUrl());
             if (filter_var($image, FILTER_VALIDATE_URL)) {
                 return $image;
             }
@@ -57,24 +58,34 @@ class Crawler extends BaseCrawler
         return null;
     }
 
-    public function extractLinks()
+    /**
+     * Finds the main content of the given html code
+     * (Uses Heuristic not 100% accurate)
+     * @param $html
+     * @return string
+     */
+    public function findMainContent(): string
     {
-        $links = $this->filterLinks();
+        $html = $this->html();
+        $mainContentNode = Utils::findTopNode($html);
+        // DOMDocument
+        $Target = new DOMDocument;
+        $Target->appendChild($Target->importNode($mainContentNode, true));
+        // $mainContent = $Target->saveHTML();
+        $mainContent = mb_convert_encoding($Target->saveHTML(),  "utf-8", "HTML-ENTITIES");
+        $mainContent = Utils::fixHtml($mainContent);
 
-        foreach ($links as &$link) {
-            if(!Utils::isValidUrl($link)) {
-                $link = $this->getBaseHref().$link;
-            }
-        }
-
-        return $links;
+        return $mainContent;
     }
 
-    public function extractEmails()
+    public function findEmails()
     {
-        $regexp = '/([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+/i';
-        preg_match_all($regexp, $this->html(), $matches);
+        return Utils::extractEmails($this->html());
+    }
 
-        return $matches[0] ?? [];
+    public function getBaseUrl()
+    {
+        $url_info = parse_url($this->getUri());
+        return $url_info['scheme'] . '://' . $url_info['host'];
     }
 }
