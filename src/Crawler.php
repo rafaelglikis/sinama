@@ -62,11 +62,13 @@ class Crawler extends BaseCrawler
         $links = $this->filterLinks();
 
         foreach ($links as &$link) {
-            if(!Utils::isLink($link)) {
+            if(!Utils::isValidUrl($link)) {
                 $link = $this->getBaseHref().$link;
             }
         }
 
         return $links;
     }
+
+
 }

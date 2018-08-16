@@ -57,4 +57,5 @@ Submit forms:
 ## TODO
 * Crawler::findMainContent()
 * Crawler::findTags()
+* split Crawler::fixHtml()
     

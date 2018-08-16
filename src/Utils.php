@@ -5,15 +5,47 @@ namespace Sinama;
 
 class Utils
 {
-    public static function isLink(string $str): string
+    public static function isValidUrl(string $str): string
     {
-        return strpos(strtolower($str),"http://") === 0 ||
-            strpos(strtolower($str),"https://") === 0;
+        return filter_var($str, FILTER_VALIDATE_URL);
     }
 
+    public static function isValidEmail(string $str): string
+    {
+        return filter_var($str, FILTER_VALIDATE_EMAIL);
+    }
+
+    public static function isValidIpAddress(string $str): string
+    {
+        return filter_var($str, FILTER_VALIDATE_IP);
+    }
+
+    /**
+     * Returns true if string is valid json.
+     *
+     * @param $str
+     *
+     * @return bool
+     */
+    static function isValidJson(string $str)
+    {
+        // decode the JSON data
+        $result = json_decode($str);
+
+        return (json_last_error() === JSON_ERROR_NONE);
+    }
+
+    /**
+     * Adds baseUri to url is not url.
+     *
+     * @param string $url
+     * @param string $baseUri
+     *
+     * @return string
+     */
     public static function makeUrlIfNot(string $url, string $baseUri): string
     {
-        if (!Utils::isLink($url) && $baseUri) {
+        if (!Utils::isValidUrl($url) && $baseUri) {
             $parse = parse_url($baseUri);
             $domain = $parse['host'];
             $url = $parse['scheme'].'://'.$domain.'/'.$url;
@@ -22,9 +54,9 @@ class Utils
     }
 
     /**
-     * Remove unnecessary html tags
-     * (scripts, styles, ads, etc)
+     * Remove unnecessary html tags (scripts, styles, ads, etc)
      * @param $html
+     *
      * @return string
      */
     public static function fixHtml(string $html): string
@@ -38,9 +70,11 @@ class Utils
 
     /**
      * Returns the string value from data between start - end
+     *
      * @param string $str
      * @param string|null $start
      * @param string|null $end
+     *
      * @return string
      */
     public static function cut(string $str, string $start = null, string $end = null)
@@ -65,17 +99,5 @@ class Utils
         $arr2 = explode(" ", $str2);
 
         return join(" \n", array_diff($arr2, $arr1));
-    }
-
-    /**
-     * @param $string
-     * @return bool
-     */
-    static function isValidJson($string)
-    {
-        // decode the JSON data
-        $result = json_decode($string);
-
-        return (json_last_error() === JSON_ERROR_NONE);
     }
 }
