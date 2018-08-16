@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.0",
+        "ext-json": "*",
         "fabpot/goutte": "^3.2"
     },
     "require-dev": {

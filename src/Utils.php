@@ -66,4 +66,16 @@ class Utils
 
         return join(" \n", array_diff($arr2, $arr1));
     }
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    static function isValidJson($string)
+    {
+        // decode the JSON data
+        $result = json_decode($string);
+
+        return (json_last_error() === JSON_ERROR_NONE);
+    }
 }

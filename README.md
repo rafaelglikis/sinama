@@ -55,5 +55,6 @@ Submit forms:
     });
     
 ## TODO
-    
+* Crawler::findMainContent()
+* Crawler::findTags()
     
