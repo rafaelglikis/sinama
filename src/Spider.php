@@ -2,15 +2,32 @@
 
 namespace Sinama;
 
-
-abstract class Spider
+abstract class Spider implements SpiderInterface
 {
     /**
      * @var array
      */
-    protected $followUrls = [];
+    private $followUrls = [];
 
-    protected $lastIndex = 0;
+    /**
+     * @var int
+     */
+    private $maxDepth = -1;
+
+    /**
+     * @var int
+     */
+    private $lastIndex = 0;
+
+    /**
+     * @var float
+     */
+    private $sleepTime = 0;
+
+    /**
+     * @var boolean
+     */
+    private $verbose = false;
 
     /**
      * @var \Sinama\Client
@@ -20,19 +37,17 @@ abstract class Spider
     /**
      * Spider constructor.
      *
+     * @param array $params
      * @param Client|null $client
      */
-    public function __construct(Client $client = null)
+    public function __construct($params = [], Client $client = null)
     {
         $this->client = $client ?? new Client();
 
-        if (is_null($client)) {
-            $this->client = new Client();
-        }
-        else {
-            $this->client = $client;
-        }
-        $this->followUrls = $this->getStartUrls();
+        // Setting parameters
+        $this->followUrls = $params['start_urls'] ?? [];
+        $this->maxDepth =  (int)$params['max_depth'] ?? -1;
+        $this->verbose = (bool)$params['verbose'] ?? false;
     }
 
     /**
@@ -40,20 +55,29 @@ abstract class Spider
      */
     public function run()
     {
+        $this->log('i', 'Spider started');
+
         for ($i = $this->lastIndex ; $i < count($this->followUrls); ++$i) {
+            $this->log('i', 'Parsing ' . $this->followUrls[$i]);
+
             $this->lastIndex = $i;
-            $crawler = $this->client->request('GET', $this->followUrls[$i]);
-            $this->parse($crawler);
+            $this->parse($this->followUrls[$i]);
+            if ( $i == $this->maxDepth) {
+                $this->log('i', 'Max depth reached');
+                break;
+            }
         }
+
+        $this->log('i', 'End of site reached');
     }
 
     /**
      * Implements how to parse each web page.
      *
-     * @param Crawler $crawler
+     * @param string $url
      * @return mixed
      */
-    abstract public function parse(Crawler $crawler);
+    abstract public function parse(string $url);
 
     /**
      * Implements how to scrape each web page.
@@ -61,14 +85,14 @@ abstract class Spider
      * @param $url
      * @return mixed
      */
-    abstract public function scrape($url);
+    abstract public function scrape(string $url);
 
     /**
      * Puts url in followUrls to be parsed
      *
      * @param $url
      */
-    public function follow($url)
+    public function follow(string $url)
     {
         if (!in_array($url, $this->followUrls)) {
             $this->followUrls[] = $url;
@@ -76,17 +100,18 @@ abstract class Spider
     }
 
     /**
-     * Returns a list with the start urls of a spider.
-     *
-     * @return array
-     */
-    abstract public function getStartUrls(): array;
-
-    /**
      * @param Client $client
      */
     public function setClient(Client $client)
     {
         $this->client = $client;
+    }
+
+    private function log($type, $message)
+    {
+        if ($this->verbose) {
+            $time = date('Y:m:d:h:i:s');
+            echo "[$type] [$time] $message\n";
+        }
     }
 }

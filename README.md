@@ -131,7 +131,11 @@ class Spider extends BaseSpider
     }
 }
 
-$spider = new Spider();
+$spider = new Spider([
+    'start_urls' => [ 'https://blog.scrapinghub.com' ],
+    'max_depth' => 2,
+    'verbose' => true
+]);
 $spider->run();
 ```
 
